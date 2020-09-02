@@ -2,6 +2,23 @@ import React, { useRef } from 'react';
 
 const Header = () => {
   const hiddenInput = useRef();
+  const handleImageUpload = (event) => {
+    const files = event.target.files;
+    const formData = new FormData();
+    formData.append('image', files[0]);
+
+    fetch('http://localhost:8000/uploadImage', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <header>
       <h2>Image Gallery</h2>
@@ -14,7 +31,7 @@ const Header = () => {
           hidden
           type="file"
           ref={hiddenInput}
-          onChange={(e) => console.log('e', e)}
+          onChange={handleImageUpload}
         />
       </div>
     </header>

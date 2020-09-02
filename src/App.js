@@ -1,5 +1,6 @@
 import React from 'react';
-import ImageList from './image-list';
+import Routes from './router';
+
 import Header from './header';
 import './App.css';
 
@@ -8,7 +9,7 @@ function App() {
     <div className="App">
       <Header />
       <main>
-        <ImageList />
+        <Routes />
       </main>
     </div>
   );

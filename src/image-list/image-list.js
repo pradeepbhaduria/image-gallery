@@ -1,33 +1,23 @@
-import React, { Fragment, useEffect } from 'react';
-import { useState } from 'react';
+import React, { Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Carousel } from 'react-responsive-carousel';
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+
 const ImageList = () => {
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/listObjects')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('data', data);
-        setImages(data);
-      });
-  }, []);
-
+  const history = useHistory();
+  const { images } = history.location.state;
+  console.log('Images', images, history);
   return (
     <Fragment>
-      {images.map((image, index) => (
-        <figure style={{ display: 'inline-block' }} key={index}>
-          <img
-            src={image}
-            alt="test"
-            loading="lazy"
-            width="300px"
-            height="300px"
-          />
-          <figcaption>
-            <strong>{`Image - ${index}`}</strong>
-          </figcaption>
-        </figure>
-      ))}
+      <Carousel>
+        {images.map(({ imageUrl, key, labels = [] }) => (
+          <figure key={key}>
+            <img src={imageUrl} alt="test" loading="lazy" />
+            <p className="legend">{labels.join(', ')}</p>
+          </figure>
+        ))}
+      </Carousel>
     </Fragment>
   );
 };
